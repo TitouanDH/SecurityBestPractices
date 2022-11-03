@@ -3,12 +3,9 @@
 from scapy.all import *
 from scapy.contrib.igmp import IGMP
 
-source_interface = "ens192"
-destination_ip = "192.168.80.81"
+source_interface = "Ethernet"
+destination_ip = "239.10.20.30"
 
-data_size = 500
-
-
-pck = Ether()/IP(dst=destination_ip)/IGMP()
+pck = Ether()/IP(dst=destination_ip)/IGMP(type=22, gaddr=destination_ip)
 pck.show()
-sendp(pck, iface=source_interface)
+sendp(pck, iface=source_interface, loop=1)

@@ -2,7 +2,7 @@
 
 from scapy.all import *
 
-source_interface = "ens192"
+source_interface = "Ethernet"
 destination_ip = "192.168.80.81"
 
 data_size = 500
