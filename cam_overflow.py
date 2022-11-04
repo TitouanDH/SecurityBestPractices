@@ -1,11 +1,11 @@
 #!venv/bin/python
 
 from scapy.all import *
-from scapy.all import Ether, ARP
+from scapy.all import Ether, IP, ICMP
 
 source_interface = "Ethernet"
 destination_ip = "10.130.7.253"
 
-pck = Ether(dst="FF:FF:FF:FF:FF:FF")/ARP(op=1,pdst=destination_ip ,psrc=RandIP(), hwdst="FF:FF:FF:FF:FF:FF")/Raw(b"X" * 20)
+pck = Ether(src=RandMAC())/IP(dst=destination_ip)/ICMP()
 pck.show()
 sendp(pck, iface=source_interface, loop=1)
