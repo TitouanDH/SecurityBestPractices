@@ -2,6 +2,7 @@
 
 from scapy.all import *
 from scapy.contrib.igmp import IGMP
+from scapy.all import Ether, Dot1Q, IP, ICMP
 
 source_interface = "Ethernet"
 destination_ip = "239.10.20.30"

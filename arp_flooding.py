@@ -3,6 +3,7 @@
 ''' NOT WORKING '''
 
 from scapy.all import *
+from scapy.all import Ether, ARP
 
 source_interface = "Ethernet"
 destination_ip = "192.168.80.81"

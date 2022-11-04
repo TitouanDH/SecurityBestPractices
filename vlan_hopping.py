@@ -1,8 +1,9 @@
 #!venv/bin/python
 
 from scapy.all import *
+from scapy.all import Ether, Dot1Q, IP, ICMP
 
-source_interface = "ens192"
+source_interface = "Ethernet"
 
 source_vlan = 0 # 0 or vlan number
 destination_vlan = 80

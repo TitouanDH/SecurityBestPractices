@@ -1,6 +1,7 @@
 #!venv/bin/python
 
 from scapy.all import *
+from scapy.all import Ether, Dot1Q, IP, ICMP
 
 source_interface = "Ethernet"
 destination_ip = "192.168.80.81"
