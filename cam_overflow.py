@@ -3,6 +3,11 @@
 from scapy.all import *
 from scapy.all import Ether, IP, ICMP
 
+"""
+Filling the CAM (mac database) of the switch. 
+New macs will not be registered so flooded on all ports
+"""
+
 source_interface = "Ethernet"
 destination_ip = "10.130.7.253"
 

@@ -3,6 +3,10 @@
 from scapy.all import *
 from scapy.all import Ether, Dot1Q, IP, ICMP
 
+"""
+Bypass vlan restriction by encapsulation .1q into .1q
+"""
+
 source_interface = "Ethernet"
 
 source_vlan = 0 # 0 or vlan number
