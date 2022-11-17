@@ -4,13 +4,12 @@ from scapy.all import *
 from scapy.contrib.lldp import *
 from scapy.all import Ether
 import binascii
-
+import settings
 """
 Advertising a fake AP via LLDP.
 """
 
-source_interface = "Ethernet"
-pck = Ether(dst="01:80:c2:00:00:0e")/LLDPDU()\
+pck = Ether(dst=settings.mac_dest)/LLDPDU()\
     /LLDPDUChassisID(subtype=4, id=b"38:f3:ab:59:2a:7e")\
     /LLDPDUPortID(subtype=3, id=b"38:f3:ab:59:2a:7e")\
     /LLDPDUTimeToLive(ttl=120)\
@@ -18,7 +17,7 @@ pck = Ether(dst="01:80:c2:00:00:0e")/LLDPDU()\
     /LLDPDUGenericOrganisationSpecific(org_code=0x00120f, subtype=0x01, data=binascii.unhexlify("036c01001e"))\
     /LLDPDUEndOfLLDPDU(b"")
 
-sendp(pck, iface=source_interface)
+sendp(pck, iface=settings.source_interface)
 
 # Router
 #/LLDPDUSystemCapabilities(mac_bridge_available=1,router_available=1, mac_bridge_enabled=1, router_enabled=1)\

