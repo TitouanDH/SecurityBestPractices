@@ -7,7 +7,7 @@ import settings
 Bypass vlan restriction by encapsulation .1q into .1q
 """
 
-dot1_tags = Ether()
+dot1_tags = Ether(dst=settings.mac_dest)
 for vlan_id in settings.vlans:
     dot1_tags = dot1_tags/Dot1Q(vlan=vlan_id)
 

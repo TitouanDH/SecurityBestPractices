@@ -3,10 +3,10 @@ This file contains the commun parameters use in the attacks.
 """
 
 "Commun settings"
-source_interface = "ens192"
-destination_ip = "239.10.20.30"
-source_ip = "10.130.7.1"
-mac_dest = "01:80:c2:00:00:0e"
+source_interface = "Ethernet"
+destination_ip = "224.0.0.5"
+source_ip = "192.168.80.88"
+mac_dest = "ff:ff:ff:ff:ff:ff"
 
 "DHCP rogue settings"
 rogue_serv = "10.10.10.1"
