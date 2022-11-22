@@ -4,8 +4,8 @@ This file contains the commun parameters use in the attacks.
 
 "Commun settings"
 source_interface = "Ethernet"
-destination_ip = "224.0.0.5"
-source_ip = "192.168.80.88"
+destination_ip = "10.77.77.40"
+source_ip = "10.77.77.39"
 mac_dest = "ff:ff:ff:ff:ff:ff"
 
 "DHCP rogue settings"
@@ -20,3 +20,6 @@ port_id=b"38:f3:ab:59:2a:7e"
 
 "Vlan hopping"
 vlans = [0, 80] # vlans in order : from us to the target vlan
+
+"Spoofing attack on gateway"
+gateway = "10.77.77.254"
