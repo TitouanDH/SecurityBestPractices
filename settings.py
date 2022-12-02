@@ -1,8 +1,8 @@
 """
-This file contains the commun parameters use in the attacks.
+This file contains the common parameters use in the attacks.
 """
 
-"Commun settings"
+"Common settings"
 source_interface = "Ethernet"
 destination_ip = "10.77.77.40"
 source_ip = "10.77.77.39"
