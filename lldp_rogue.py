@@ -20,8 +20,6 @@ pck = Ether(dst=settings.mac_dest)/LLDPDU()\
 sendp(pck, iface=settings.source_interface)
 
 
-
-
 pck = Ether(dst=settings.mac_dest)/LLDPDU()\
     /LLDPDUChassisID(subtype=4, id=b"38:f3:ab:77:2a:7e")\
     /LLDPDUPortID(subtype=3, id=b"38:f3:ab:77:2a:7e")\
