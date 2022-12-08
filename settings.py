@@ -4,8 +4,9 @@ This file contains the common parameters use in the attacks.
 
 "Common settings"
 source_interface = "Ethernet"
-destination_ip = "10.77.77.40"
-source_ip = "10.77.77.39"
+destination_ip = "10.77.77.254"
+source_ip = "10.77.77.31"
+mac_source = "c8:5a:cf:09:be:a7"
 mac_dest = "ff:ff:ff:ff:ff:ff"
 
 "DHCP rogue settings"
@@ -23,3 +24,7 @@ vlans = [0, 80] # vlans in order : from us to the target vlan
 
 "Spoofing attack on gateway"
 gateway = "10.77.77.254"
+
+
+"LAND"
+destination_port = 22
