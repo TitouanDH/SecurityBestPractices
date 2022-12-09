@@ -22,9 +22,5 @@ port_id=b"38:f3:ab:59:2a:7e"
 "Vlan hopping"
 vlans = [0, 80] # vlans in order : from us to the target vlan
 
-"Spoofing attack on gateway"
-gateway = "10.77.77.254"
-
-
 "LAND"
-destination_port = 22
+destination_port = 8888
