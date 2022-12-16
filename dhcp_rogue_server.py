@@ -7,7 +7,7 @@ import ipaddress
 import settings
 
 # EXHAUST IP POOL OF REAL DHCP
-#dhcp_exhaust.exhaust()
+dhcp_exhaust.exhaust()
 
 ip = ipaddress.ip_address(settings.start_ip)
 database = []
