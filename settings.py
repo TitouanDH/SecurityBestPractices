@@ -25,3 +25,8 @@ vlans = [0, 80] # vlans in order : from us to the target vlan
 
 "LAND"
 destination_port = 8888
+
+"OSPF route injection"
+ospf_spoofed = "10.88.88.254"
+ospf_network_adv = "10.99.99.0"
+ospf_area = "0.0.0.0"
