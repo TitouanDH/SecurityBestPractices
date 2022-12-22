@@ -7,7 +7,7 @@ import settings # import of the "setting.py" file
 Bypass vlan restriction by encapsulation .1q into .1q
 """
 
-dot1_tags = Ether(dst=settings.mac_dest) # Create an empty Ethernet packet
+dot1_tags = Ether() # Create an empty Ethernet packet
 for vlan_id in settings.vlans: # add the 802.1q headers for the VLANs. Cf "setting.py"
     dot1_tags = dot1_tags/Dot1Q(vlan=vlan_id)
 
