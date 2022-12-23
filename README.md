@@ -23,4 +23,23 @@ The file settings.py contains the different attack parameters. Thoses are alread
 
 
 ## Execute attacks
-set up the settings then just run the corresponding script
+Before launching any attack, you need to step up the settings.
+Go to the *settings.py* fiel
+
+Steps:  
+
+    - Enter the Commun settings  
+    - Look the list bellow, if your attack is one of those go to attack section in this file (Ctrl-F)
+  
+        DHCP rogue/exhaust
+        LLDP rogue
+        Vlan hopping
+        LAND
+        OSPF route injection
+        ICMP REDIRECT
+
+    - Set up the attack variable (if needed = in the list above)
+    - Go back to the .py file
+    - launch the attack
+
+Refer back to the first attacks of the document in order to understand and have detailled explainations.
