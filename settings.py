@@ -24,7 +24,7 @@ Refer to the first attacks of the document in order to understand and have detai
 "Common settings"
 "Settings below are used in many script, set them before any new attack !"
 source_interface = "Ethernet"
-destination_ip = "10.130.7.1"
+destination_ip = "10.77.77.254"
 source_ip = "10.77.77.55"
 mac_source = "c8:5a:cf:09:be:a7"
 mac_dest = "ff:ff:ff:ff:ff:ff"

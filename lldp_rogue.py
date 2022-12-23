@@ -30,9 +30,17 @@ pck = Ether(dst=settings.mac_dest)/LLDPDU()\
 
 sendp(pck, iface=settings.source_interface)
 
-# Router
-#/LLDPDUSystemCapabilities(mac_bridge_available=1,router_available=1, mac_bridge_enabled=1, router_enabled=1)\
-# AP
-#/LLDPDUSystemCapabilities(mac_bridge_available=1, mac_bridge_enabled=1, wlan_access_point_available=1, wlan_access_point_enabled=1)\
-#IP PHONE
-#/LLDPDUSystemCapabilities(telephone_available=1, telephone_enabled=1)\
+"""
+You can use the following Capabalities if you want to simulate other type of device:
+(change line 27)
+
+*Router*
+/LLDPDUSystemCapabilities(mac_bridge_available=1,router_available=1, mac_bridge_enabled=1, router_enabled=1)\
+
+*AP*
+/LLDPDUSystemCapabilities(mac_bridge_available=1, mac_bridge_enabled=1, wlan_access_point_available=1, wlan_access_point_enabled=1)\
+
+*IP PHONE*
+/LLDPDUSystemCapabilities(telephone_available=1, telephone_enabled=1)\
+
+"""
