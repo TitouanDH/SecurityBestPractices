@@ -3,7 +3,7 @@ This file contains the common parameters use in the attacks.
 The variables names should be straight forward on the purpose of them.
 
 Steps:
-    - enter the Commun settings
+    - enter the Common settings
     - Look the list bellow, if your attack is one of those go to attack section in this file (Ctrl-F)
 
     DHCP related
@@ -41,7 +41,7 @@ chassis_id=b"38:f3:ab:59:2a:7e"
 port_id=b"38:f3:ab:59:2a:7e"
 
 "Vlan hopping"
-vlans = [0, 80] # vlans in order : from us to the target vlan
+vlans = [10, 20] # vlans in order : from us to the target vlan
 
 "LAND"
 destination_port = 8888
